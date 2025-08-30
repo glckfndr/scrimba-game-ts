@@ -3,6 +3,7 @@ import { clsx } from "clsx";
 import { languages } from "./languages";
 import { getFarewellText, getRandomWord } from "./utils";
 import Confetti from "react-confetti";
+import Header from "./Header";
 
 /**
  * Backlog:
@@ -138,13 +139,7 @@ export default function AssemblyEndgame() {
   return (
     <main>
       {isGameWon && <Confetti recycle={false} numberOfPieces={1000} />}
-      <header>
-        <h1>Assembly: Endgame</h1>
-        <p>
-          Guess the word within 8 attempts to keep the programming world safe
-          from Assembly!
-        </p>
-      </header>
+      <Header />
 
       <section aria-live="polite" role="status" className={gameStatusClass}>
         {renderGameStatus()}
