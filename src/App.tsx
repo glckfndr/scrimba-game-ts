@@ -2,8 +2,9 @@ import { useState } from "react";
 import { clsx } from "clsx";
 import { languages } from "./languages";
 import { getFarewellText, getRandomWord } from "./utils";
-import Confetti from "react-confetti";
+
 import Header from "./Header";
+import ConfettiContainer from "./ConfettiContainer";
 
 /**
  * Backlog:
@@ -138,7 +139,7 @@ export default function AssemblyEndgame() {
 
   return (
     <main>
-      {isGameWon && <Confetti recycle={false} numberOfPieces={1000} />}
+      <ConfettiContainer isGameWon={isGameWon} />
       <Header />
 
       <section aria-live="polite" role="status" className={gameStatusClass}>
