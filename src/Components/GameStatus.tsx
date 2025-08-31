@@ -1,6 +1,6 @@
 import clsx from "clsx";
-import { getFarewellText } from "./utils";
-import { languages } from "./languages";
+import { getFarewellText } from "../utils";
+import { languages } from "../languages";
 import type { JSX } from "react";
 
 /*

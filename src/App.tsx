@@ -3,10 +3,11 @@ import { clsx } from "clsx";
 import { languages } from "./languages";
 import { getRandomWord } from "./utils";
 
-import Header from "./Header";
-import ConfettiContainer from "./ConfettiContainer";
-import GameStatus from "./GameStatus";
-import AriaLiveStatus from "./AriaLiveStatus";
+import Header from "./Components/Header";
+import ConfettiContainer from "./Components/ConfettiContainer";
+import GameStatus from "./Components/GameStatus";
+import AriaLiveStatus from "./Components/AriaLiveStatus";
+import LanguageChips from "./Components/LanguageChips";
 
 /**
  * Backlog:
@@ -39,7 +40,7 @@ export default function AssemblyEndgame() {
   const isGameOver = isGameWon || isGameLost;
   const lastGuessedLetter = guessedLetters[guessedLetters.length - 1];
   const isLastGuessIncorrect =
-    lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
+    !!lastGuessedLetter && !currentWord.includes(lastGuessedLetter);
 
   // Static values
   const alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -54,20 +55,6 @@ export default function AssemblyEndgame() {
     setCurrentWord(getRandomWord());
     setGuessedLetters([]);
   }
-
-  const languageElements = languages.map((lang, index) => {
-    const isLanguageLost = index < wrongGuessCount;
-    const styles = {
-      backgroundColor: lang.backgroundColor,
-      color: lang.color,
-    };
-    const className = clsx("chip", isLanguageLost && "lost");
-    return (
-      <span className={className} style={styles} key={lang.name}>
-        {lang.name}
-      </span>
-    );
-  });
 
   const letterElements = currentWord.split("").map((letter, index) => {
     const shouldRevealLetter = isGameLost || guessedLetters.includes(letter);
@@ -117,7 +104,7 @@ export default function AssemblyEndgame() {
         wrongGuessCount={wrongGuessCount}
       />
 
-      <section className="language-chips">{languageElements}</section>
+      <LanguageChips languages={languages} wrongGuessCount={wrongGuessCount} />
 
       <section className="word">{letterElements}</section>
 
