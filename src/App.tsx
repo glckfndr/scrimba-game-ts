@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { clsx } from "clsx";
 import { languages } from "./languages";
-import { getFarewellText, getRandomWord } from "./utils";
+import { getRandomWord } from "./utils";
 
 import Header from "./Header";
 import ConfettiContainer from "./ConfettiContainer";
+import GameStatus from "./GameStatus";
 
 /**
  * Backlog:
@@ -102,49 +103,20 @@ export default function AssemblyEndgame() {
     );
   });
 
-  const gameStatusClass = clsx("game-status", {
-    won: isGameWon,
-    lost: isGameLost,
-    farewell: !isGameOver && isLastGuessIncorrect,
-  });
-
-  function renderGameStatus() {
-    if (!isGameOver && isLastGuessIncorrect) {
-      return (
-        <p className="farewell-message">
-          {getFarewellText(languages[wrongGuessCount - 1].name)}
-        </p>
-      );
-    }
-
-    if (isGameWon) {
-      return (
-        <>
-          <h2>You win!</h2>
-          <p>Well done! 🎉</p>
-        </>
-      );
-    }
-    if (isGameLost) {
-      return (
-        <>
-          <h2>Game over!</h2>
-          <p>You lose! Better start learning Assembly 😭</p>
-        </>
-      );
-    }
-
-    return null;
-  }
+  
 
   return (
     <main>
       <ConfettiContainer isGameWon={isGameWon} />
       <Header />
 
-      <section aria-live="polite" role="status" className={gameStatusClass}>
-        {renderGameStatus()}
-      </section>
+      <GameStatus
+        isGameWon={isGameWon}
+        isGameLost={isGameLost}
+        isGameOver={isGameOver}
+        isLastGuessIncorrect={isLastGuessIncorrect}
+        wrongGuessCount={wrongGuessCount}
+      />
 
       <section className="language-chips">{languageElements}</section>
 
