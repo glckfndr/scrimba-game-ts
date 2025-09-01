@@ -8,6 +8,7 @@ import ConfettiContainer from "./Components/ConfettiContainer";
 import GameStatus from "./Components/GameStatus";
 import AriaLiveStatus from "./Components/AriaLiveStatus";
 import LanguageChips from "./Components/LanguageChips";
+import WordLetters from "./Components/WordLetters";
 
 /**
  * Backlog:
@@ -56,18 +57,6 @@ export default function AssemblyEndgame() {
     setGuessedLetters([]);
   }
 
-  const letterElements = currentWord.split("").map((letter, index) => {
-    const shouldRevealLetter = isGameLost || guessedLetters.includes(letter);
-    const letterClassName = clsx(
-      isGameLost && !guessedLetters.includes(letter) && "missed-letter"
-    );
-    return (
-      <span key={index} className={letterClassName}>
-        {shouldRevealLetter ? letter.toUpperCase() : ""}
-      </span>
-    );
-  });
-
   const keyboardElements = alphabet.split("").map((letter) => {
     const isGuessed = guessedLetters.includes(letter);
     const isCorrect = isGuessed && currentWord.includes(letter);
@@ -106,7 +95,11 @@ export default function AssemblyEndgame() {
 
       <LanguageChips languages={languages} wrongGuessCount={wrongGuessCount} />
 
-      <section className="word">{letterElements}</section>
+      <WordLetters
+        currentWord={currentWord}
+        guessedLetters={guessedLetters}
+        isGameLost={isGameLost}
+      />
 
       {/* Combined visually-hidden aria-live region for status updates */}
       <AriaLiveStatus
