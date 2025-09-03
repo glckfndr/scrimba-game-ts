@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { clsx } from "clsx";
 import { languages } from "./languages";
 import { getRandomWord } from "./utils";
 
@@ -9,6 +8,8 @@ import GameStatus from "./Components/GameStatus";
 import AriaLiveStatus from "./Components/AriaLiveStatus";
 import LanguageChips from "./Components/LanguageChips";
 import WordLetters from "./Components/WordLetters";
+import NewGameButton from "./Components/NewGameButton";
+import Keyboard from "./Components/Keyboard";
 
 /**
  * Backlog:
@@ -57,29 +58,6 @@ export default function AssemblyEndgame() {
     setGuessedLetters([]);
   }
 
-  const keyboardElements = alphabet.split("").map((letter) => {
-    const isGuessed = guessedLetters.includes(letter);
-    const isCorrect = isGuessed && currentWord.includes(letter);
-    const isWrong = isGuessed && !currentWord.includes(letter);
-    const className = clsx({
-      correct: isCorrect,
-      wrong: isWrong,
-    });
-
-    return (
-      <button
-        className={className}
-        key={letter}
-        disabled={isGameOver}
-        aria-disabled={guessedLetters.includes(letter)}
-        aria-label={`Letter ${letter}`}
-        onClick={() => addGuessedLetter(letter)}
-      >
-        {letter.toUpperCase()}
-      </button>
-    );
-  });
-
   return (
     <main>
       <ConfettiContainer isGameWon={isGameWon} />
@@ -109,13 +87,15 @@ export default function AssemblyEndgame() {
         numGuessesLeft={numGuessesLeft}
       />
 
-      <section className="keyboard">{keyboardElements}</section>
+      <Keyboard
+        alphabet={alphabet}
+        guessedLetters={guessedLetters}
+        currentWord={currentWord}
+        isGameOver={isGameOver}
+        addGuessedLetter={addGuessedLetter}
+      />
 
-      {isGameOver && (
-        <button className="new-game" onClick={startNewGame}>
-          New Game
-        </button>
-      )}
+      <NewGameButton isGameOver={isGameOver} startNewGame={startNewGame} />
     </main>
   );
 }
